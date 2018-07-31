@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Circle</title>
+	<meta charset="utf-8">
+	<script type="text/javascript" src="paperjs-v0.11.5/dist/paper-full.js"></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/howler/2.0.7/howler.core.min.js"></script>
+
+	<!-- Define inlined PaperScript associate it with myCanvas -->
+	<script type="text/paperscript" canvas="myCanvas">
+		
+		var keyData = {
+			a: {
+				sound: new Howl({
+		  			src: ['sounds/bubbles.mp3']
+				}),
+				color: '#ff0000'
+			},
+
+			b: {
+				sound: new Howl({
+		  			src: ['sounds/clay.mp3']
+				}),
+				color: '#ff5d00'
+			},
+
+			c: {
+				sound: new Howl({
+		  			src: ['sounds/confetti.mp3']
+				}),
+				color: '#ffae00'
+			},
+
+			d: {
+				sound: new Howl({
+		  			src: ['sounds/corona.mp3']
+				}),
+				color: '#ffd400'
+			},
+
+			e: {
+				sound: new Howl({
+		  			src: ['sounds/dotted-spiral.mp3']
+				}),
+				color: '#fffa00'
+			},
+
+			f: {
+				sound: new Howl({
+		  			src: ['sounds/flash-1.mp3']
+				}),
+				color: '#aeff00'
+			},
+
+			g: {
+				sound: new Howl({
+		  			src: ['sounds/flash-2.mp3']
+				}),
+				color: '#59ff00'
+			},
+
+			h: {
+				sound: new Howl({
+		  			src: ['sounds/flash-3.mp3']
+				}),
+				color: '#0cff00'
+			},
+
+			i: {
+				sound: new Howl({
+		  			src: ['sounds/glimmer.mp3']
+				}),
+				color: '#00ff5d'
+			},
+
+			j: {
+				sound: new Howl({
+		  			src: ['sounds/moon.mp3']
+				}),
+				color: '#00ffa9'
+			},
+
+			k: {
+				sound: new Howl({
+		  			src: ['sounds/pinwheel.mp3']
+				}),
+				color: '#00edff'
+			},
+
+			l: {
+				sound: new Howl({
+		  			src: ['sounds/veil.mp3']
+				}),
+				color: '#0087ff'
+			},
+
+			m: {
+				sound: new Howl({
+		  			src: ['sounds/wipe.mp3']
+				}),
+				color: '#0043ff'
+			},
+
+			n: {
+				sound: new Howl({
+		  			src: ['sounds/piston-1.mp3']
+				}),
+				color: '#0000ff'
+			},
+
+			o: {
+				sound: new Howl({
+		  			src: ['sounds/piston-2.mp3']
+				}),
+				color: '#7200ff'
+			},
+
+			p: {
+				sound: new Howl({
+		  			src: ['sounds/piston-3.mp3']
+				}),
+				color: '#b200ff'
+			},
+
+			q: {
+				sound: new Howl({
+		  			src: ['sounds/prism-1.mp3']
+				}),
+				color: '#ff00ff'
+			},
+
+			r: {
+				sound: new Howl({
+		  			src: ['sounds/prism-2.mp3']
+				}),
+				color: '#ff008c'
+			},
+
+			s: {
+				sound: new Howl({
+		  			src: ['sounds/prism-3.mp3']
+				}),
+				color: '#ff005d'
+			},
+
+			t: {
+				sound: new Howl({
+		  			src: ['sounds/splits.mp3']
+				}),
+				color: '#3d2a63'
+			},
+
+			u: {
+				sound: new Howl({
+		  			src: ['sounds/squiggle.mp3']
+				}),
+				color: '#ed93c7'
+			},
+
+			v: {
+				sound: new Howl({
+		  			src: ['sounds/zig-zag.mp3']
+				}),
+				color: '#e55454'
+			},
+
+			w: {
+				sound: new Howl({
+		  			src: ['sounds/strike.mp3']
+				}),
+				color: '#d2d660'
+			},
+
+			x: {
+				sound: new Howl({
+		  			src: ['sounds/suspension.mp3']
+				}),
+				color: '#77d660'
+			},
+
+			y: {
+				sound: new Howl({
+		  			src: ['sounds/timer.mp3']
+				}),
+				color: '#337756'
+			},
+
+			z: {
+				sound: new Howl({
+		  			src: ['sounds/ufo.mp3']
+				}),
+				color: '#29415e'
+			}
+		}
+
+		var circlesArray = [];
+
+		function onKeyDown(event) {
+			if(keyData[event.key]) {
+				var maxPoint = new Point(view.size.width, view.size.height);
+				var randomPoint = Point.random();
+				var point = maxPoint * randomPoint;
+				var newCircles = new Path.Circle(point,500);
+				newCircles.fillColor = keyData[event.key].color;
+				keyData[event.key].sound.play();
+				circlesArray.push(newCircles);
+			}
+		}
+
+		function onFrame (event){
+			for(var i = 0; i < circlesArray.length; i++) {
+				circlesArray[i].fillColor.hue += 1;
+				circlesArray[i].scale(0.9);
+				if(circlesArray[i].area < 1){
+					circlesArray[i].remove();
+				  	circlesArray.splice(i, 1);
+				}
+			}
+		}
+	</script>
+
+	<style type="text/css">
+		html,body {
+			width: 100%;
+			height: 100%;
+			margin: 0;
+		}
+
+		canvas {
+			background-color: black;
+			width: 100%;
+			height: 100%;
+		}
+	</style>
+</head>
+<body>
+	<canvas id="myCanvas" resize></canvas>
+</body>
+</html>
